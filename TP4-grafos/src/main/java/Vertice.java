@@ -1,7 +1,9 @@
+package ProgramacionIII.tp4;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Vertice<T> implements Comparable<Vertice>{
+public class Vertice<T> implements Comparable<Vertice<T>> {
     private int id;
     private ArrayList<Arco<T>> arcos;
 
@@ -15,10 +17,23 @@ public class Vertice<T> implements Comparable<Vertice>{
     }
 
     public void agregarArco(Arco<T> arco) {
-        if(!arcos.contains(arco))
+        if (!arcos.contains(arco))
             arcos.add(arco);
     }
 
+//Delete for Id
+    public void eliminarArco(int arcoIdOrigen, int arcoIdDestino) {
+        arcos.removeIf(arco -> arco.getVerticeOrigen() == arcoIdOrigen && arco.getVerticeDestino() == arcoIdDestino);
+        /*
+        for (Arco<T> arco: this.getArcos()) {
+            if(arco.getVerticeOrigen() == arcoIdOrigen && arco.getVerticeDestino() == arcoIdDestino)
+                arcos.remove(arco);
+        }*/
+        //preguntar a profe
+    }
+
+
+    //Delete for label
     public void eliminarArco(T arcoValor) {
         arcos.removeIf(arco -> arco.getEtiqueta() == arcoValor);
         //preguntar a profe
@@ -41,15 +56,6 @@ public class Vertice<T> implements Comparable<Vertice>{
         arcos.addAll(arcosTemp);
          */
     }
-    public void eliminarArco(int arcoValorOrigen, int arcoValorDestino) {
-        arcos.removeIf(arco -> arco.getVerticeOrigen() == arcoValorOrigen && arco.getVerticeDestino() == arcoValorDestino);
-        /*
-        for (Arco<T> arco: this.getArcos()) {
-            if(arco.getVerticeOrigen() == arcoValorOrigen && arco.getVerticeDestino() == arcoValorDestino)
-                arcos.remove(arco);
-        }*/
-        //preguntar a profe
-    }
 
     @Override
     public int compareTo(Vertice o) {
@@ -57,16 +63,17 @@ public class Vertice<T> implements Comparable<Vertice>{
     }
 
     public ArrayList<Arco<T>> getArcos() {
-        return new ArrayList<Arco<T>>(arcos);
+        return new ArrayList<>(arcos);
     }
 
     public boolean tengoArco(int verticeId1, int verticeId2) {
-        for (Arco<T> arco: this.getArcos()) {
-            if(arco.getVerticeOrigen() == verticeId1 && arco.getVerticeDestino() == verticeId2)
+        for (Arco<T> arco : this.getArcos()) {
+            if (arco.getVerticeOrigen() == verticeId1 && arco.getVerticeDestino() == verticeId2)
                 return true;
         }
         return false;
     }
+
     public Arco<T> getArco(int verticeId1, int verticeId2) {
         return arcos.stream()
                 .filter(arco -> arco.getVerticeOrigen() == verticeId1 && arco.getVerticeDestino() == verticeId2)
@@ -85,9 +92,17 @@ public class Vertice<T> implements Comparable<Vertice>{
 
     public Iterator<Integer> getAdyacentes() {
         ArrayList<Integer> adyacentes = new ArrayList<>();
-        for (Arco<T> arco: this.arcos) {
+        for (Arco<T> arco : this.arcos) {
             adyacentes.add(arco.getVerticeDestino());
         }
         return adyacentes.iterator();
+    }
+
+    public ArrayList<Integer> getListaAdyacentes() {
+        ArrayList<Integer> adyacentes = new ArrayList<>();
+        for (Arco<T> arco : this.arcos) {
+            adyacentes.add(arco.getVerticeDestino());
+        }
+        return adyacentes;
     }
 }
