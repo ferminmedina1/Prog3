@@ -1,4 +1,3 @@
-package ProgramacionIII.tp4;
 import java.util.Iterator;
 public class Main {
     public static void main(String[] args) {
@@ -15,7 +14,7 @@ public class Main {
         grafo.agregarArco(1, 3, "Arco 1-3");
         grafo.agregarArco(2, 4, "Arco 2-4");
         grafo.agregarArco(3, 4, "Arco 3-4");
-        grafo.agregarArco(4, 1, "Arco 4-1");
+        grafo.agregarArco(3, 1, "Arco 4-1");
 
         // Mostrar la cantidad de vértices y arcos
         System.out.println("Cantidad de vértices: " + grafo.cantidadVertices());

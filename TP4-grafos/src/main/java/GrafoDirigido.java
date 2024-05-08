@@ -1,5 +1,3 @@
-package ProgramacionIII.tp4;
-
 import java.util.*;
 
 public class GrafoDirigido<T> implements Grafo<T> {
@@ -105,12 +103,6 @@ public class GrafoDirigido<T> implements Grafo<T> {
 			return verticePrincipal.getAdyacentes();
 		return null;
 	}
-
-	/**
-	 * NOTA: Iterator es una interfaz que se utiliza para recorrer elementos de una colección
-	 * de manera secuencial. Permite acceder a los elementos de una colección sin exponer la
-	 * estructura interna de la misma.
-	 * */
 
 	@Override
 	public Iterator<Arco<T>> obtenerArcos() {

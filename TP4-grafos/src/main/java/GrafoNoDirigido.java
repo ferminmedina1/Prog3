@@ -1,5 +1,3 @@
-package ProgramacionIII.tp4;
-
 public class GrafoNoDirigido<T> extends GrafoDirigido<T> {
 
 	@Override
