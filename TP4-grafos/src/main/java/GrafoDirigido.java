@@ -67,6 +67,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
+		//complejidad O(N)
+
+		//verificacion
 		if (vertices.get(verticeId1) == null) {
 			return null;
 		}
@@ -105,7 +108,13 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
 		//Complejidad O(N)
+
 		ArrayList<Arco<T>> verticeConArcos = vertices.get(verticeId);
+		//verificacion
+		if (verticeConArcos == null) {
+			return null;
+		}
+
 		ArrayList<Integer> adyacentes = new ArrayList<>();
 		if(!verticeConArcos.isEmpty()) {
 			for (Arco<T> arco : verticeConArcos) {

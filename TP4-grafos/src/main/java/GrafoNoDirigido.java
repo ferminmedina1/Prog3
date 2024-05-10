@@ -17,4 +17,8 @@ public class GrafoNoDirigido<T> extends GrafoDirigido<T> {
 		return super.cantidadArcos() / 2;
 	}
 
+	@Override
+	public boolean existeArco(int verticeId1, int verticeId2) {
+		return super.existeArco(verticeId1, verticeId2) || super.existeArco(verticeId2,verticeId1);
+	}
 }
