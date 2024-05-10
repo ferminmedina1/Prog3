@@ -3,7 +3,7 @@
  * Nota: Para poder exponer los arcos fuera del grafo y que nadie los modifique se hizo esta clase inmutable
  * (Inmutable: una vez creado el arco no es posible cambiarle los valores).
  */
-public class Arco<T> {
+public class Arco<T>  {
 
 	private int verticeOrigen;
 	private int verticeDestino;
@@ -27,4 +27,12 @@ public class Arco<T> {
 		return etiqueta;
 	}
 
+	@Override
+	public String toString() {
+		return "Arco{" +
+				"verticeOrigen=" + verticeOrigen +
+				", verticeDestino=" + verticeDestino +
+				", etiqueta=" + etiqueta +
+				'}';
+	}
 }

@@ -1,7 +1,8 @@
 import java.util.*;
 
 public class GrafoDirigido<T> implements Grafo<T> {
-	private HashMap<Integer, Vertice<T>> vertices;
+	//             ValorVertice     Arcos
+	private HashMap<Integer, ArrayList<Arco<T>>> vertices;
 
 	public GrafoDirigido() {
 		vertices = new HashMap<>();
@@ -10,71 +11,75 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public void agregarVertice(int verticeId) {
 		if(!contieneVertice(verticeId)){
-			vertices.put(verticeId, new Vertice<T>(verticeId));
-		}//preguntar a profe
-        /*
-        boolean encontrado = false;
-        for (Vertice<T> vertice : vertices) {
-            if (vertice.getId() == verticeId) {
-                encontrado = true;
-                break;
-            }
-        }
-        if (!encontrado) {
-            vertices.add(new Vertice<T>(verticeId));
-        }*/
+			vertices.put(verticeId, new ArrayList<>());
+		}
 	}
 
 	@Override
-	/*Preguntarr*/
 	public void borrarVertice(int verticeId) {
-		if (vertices.get(verticeId) != null){
-			for (Vertice<T> v : this.vertices.values()) {
-				if (v.getListaAdyacentes().contains(verticeId)) {
-					v.eliminarArco(v.getId(),verticeId);
-				}
-			}
-			vertices.remove(verticeId);
-		}
+		vertices.values().forEach(arcosDelVertice -> arcosDelVertice.removeIf
+				(arco -> arco.getVerticeDestino() == verticeId));
+		vertices.remove(verticeId);
 
 	}
 
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2,T etiqueta) {
 		if(!existeArco(verticeId1,verticeId2)){
-			//Trae el pirmer vertice
-			Vertice<T> v1 = vertices.get(verticeId1);
-			//Trae el segundo vertice
-			Vertice<T> v2 = vertices.get(verticeId2);
-			if(v1 != null && v2 != null){
-				v1.agregarArco(new Arco<T>(verticeId1, verticeId2, etiqueta));
-				//en un grafo no dirigido esto cambia
-			}
+			//NOTA: etiqueta = null cambiara en un arco ponderado
+			vertices.get(verticeId1).add(new Arco<>(verticeId1,verticeId2,etiqueta));
 		}
 	}
 
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) {
-		vertices.get(verticeId1).eliminarArco(verticeId1,verticeId2);
+		//Complejidad O(N)
+		//Traigo los arcos del verticeId1.
+		for (Arco<T> arco : vertices.get(verticeId1)) { //Todos los arcos tiene verticeOrigen = verticeId1
+			//Pregunto a cada uno de los arcos si su destino es el verticeId2
+			if (arco.getVerticeDestino() == verticeId2) {
+				//si pasa eso elimino el arco
+				vertices.get(verticeId1).remove(arco);
+				return;
+			}
+		}
 	}
 
 	@Override
 	public boolean contieneVertice(int verticeId) {
+		//Complejidad O(1)
 		return  vertices.containsKey(verticeId);
 	}
 
 	@Override
 	public boolean existeArco(int verticeId1, int verticeId2) {
-		Vertice<T> v1 = vertices.get(verticeId1);
-		Vertice<T> v2 = vertices.get(verticeId2);
-		if (v1 != null && v2 != null)
-			return v1.tengoArco(verticeId1, verticeId2);
+		//Complejidad O(N)
+		if (contieneVertice(verticeId1) && vertices.get(verticeId1).isEmpty()) {
+			for (Arco<T> arco : vertices.get(verticeId1)) {
+				if (arco.getVerticeDestino() == verticeId2) {
+					//si pasa eso existe arco
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
-		return vertices.get(verticeId1).getArco(verticeId1,verticeId2);
+		if (vertices.get(verticeId1) == null) {
+			return null;
+		}
+		if (!vertices.get(verticeId1).isEmpty()) {
+			//Complejidad O(N)
+			for (Arco<T> arco : vertices.get(verticeId1)) {
+				if (arco.getVerticeDestino() == verticeId2) {
+					//si pasa eso retorno el arco
+					return arco;
+				}
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -84,9 +89,10 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public int cantidadArcos() {
+		//Complejidad O(N)
 		int cantidad = 0;
-		for (Vertice<T> vertice: vertices.values()) {
-			cantidad += vertice.getArcos().size();
+		for (ArrayList<Arco<T>> arcosDelVertice: this.vertices.values()) {
+			cantidad += arcosDelVertice.size();
 		}
 		return cantidad;
 	}
@@ -98,26 +104,35 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
-		Vertice<T> verticePrincipal = vertices.get(verticeId);
-		if(verticePrincipal != null)
-			return verticePrincipal.getAdyacentes();
+		//Complejidad O(N)
+		ArrayList<Arco<T>> verticeConArcos = vertices.get(verticeId);
+		ArrayList<Integer> adyacentes = new ArrayList<>();
+		if(!verticeConArcos.isEmpty()) {
+			for (Arco<T> arco : verticeConArcos) {
+				adyacentes.add(arco.getVerticeDestino());
+			}
+			return adyacentes.iterator();
+		}
 		return null;
 	}
 
+
 	@Override
 	public Iterator<Arco<T>> obtenerArcos() {
+		//Complejidad O(N)
 		ArrayList<Arco<T>> arcosObtenidos = new ArrayList<>();
-		for (Vertice<T> vertice :this.vertices.values()) {
-			arcosObtenidos.addAll(vertice.getArcos());
+		for (ArrayList<Arco<T>> arcosDelVertice : this.vertices.values()) {
+			arcosObtenidos.addAll(arcosDelVertice);
 		}
 		return arcosObtenidos.iterator();
 	}
 
 	@Override
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
-		Vertice<T> vertice = vertices.get(verticeId);
-		if (vertice!= null) {
-			return vertice.getArcos().iterator();
+		//Complejidad O(N)
+		if (contieneVertice(verticeId)) {
+			ArrayList<Arco<T>> arcos = vertices.get(verticeId);
+			return arcos.iterator();
 		}
 		return null;
 	}
