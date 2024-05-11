@@ -5,7 +5,7 @@ public class GrafoNoDirigido<T> extends GrafoDirigido<T> {
 		super.agregarArco(verticeId1, verticeId2, etiqueta);
 		super.agregarArco(verticeId2, verticeId1, etiqueta);
 	}
-	
+
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) {
 		super.borrarArco(verticeId1, verticeId2);
@@ -14,7 +14,7 @@ public class GrafoNoDirigido<T> extends GrafoDirigido<T> {
 
 	@Override
 	public int cantidadArcos() {
-		return super.cantidadArcos() / 2;
+		return (super.cantidadArcos() / 2);
 	}
 
 

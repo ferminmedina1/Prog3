@@ -1,8 +1,8 @@
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public class IteradorArco<T> implements Iterator<Integer> {
     private Iterator<Arco<T>> iterador;
+
 
     public IteradorArco(Iterator<Arco<T>> iterador) {
         this.iterador = iterador;
@@ -18,4 +18,3 @@ public class IteradorArco<T> implements Iterator<Integer> {
         return iterador.next().getVerticeDestino();
     }
 }
-

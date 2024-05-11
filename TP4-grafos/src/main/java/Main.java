@@ -1,6 +1,7 @@
 import java.util.Iterator;
 public class Main {
     public static void main(String[] args) {
+
         GrafoDirigido<String> grafo = new GrafoDirigido<>();
 
         // Agregar vértices
@@ -15,7 +16,10 @@ public class Main {
         grafo.agregarArco(2, 3, null);
         grafo.agregarArco(3, 4, null);
 
-        System.out.println("Arcos del grafo:");
+        System.out.println();
+        System.out.println("--------------------------------------GD-----------------------------------");
+        System.out.println();
+        System.out.println("Arcos del grafo dirigido:");
         Iterator<Arco<String>> it = grafo.obtenerArcos();
         while (it.hasNext()) {
             Arco<String> arco = it.next();
@@ -23,12 +27,12 @@ public class Main {
         }
 
         // Probar métodos
-        System.out.println("Cantidad de vértices: " + grafo.cantidadVertices());
-        System.out.println("Cantidad de arcos: " + grafo.cantidadArcos());
+        System.out.println("Cantidad de vértices grafo dirigido: " + grafo.cantidadVertices());
+        System.out.println("Cantidad de arcos grafo dirigido: " + grafo.cantidadArcos());
 
         System.out.println("¿Contiene vértice 1? " + grafo.contieneVertice(1));
         System.out.println("¿Contiene arco entre 1 y 2? " + grafo.existeArco(1, 2)); //true
-        System.out.println("¿Contiene arco entre 2 y 4? " + grafo.existeArco(2, 4)); //false
+        System.out.println("¿Contiene arco entre 2 y 1? " + grafo.existeArco(2, 1)); //false
 
         System.out.println("Arco entre 1 y 2: " + grafo.obtenerArco(1, 2).toString());
 
@@ -40,7 +44,7 @@ public class Main {
 
         System.out.println( "existe vertice 8, 10 " + grafo.existeArco(8,10));
         System.out.println("Borrando vértice 1...");
-
+        grafo.borrarVertice(1);
 
         System.out.println("Cantidad de vértices después de borrar: " + grafo.cantidadVertices());
         System.out.println("¿Contiene vértice 1 después de borrar? " + grafo.contieneVertice(1));
@@ -49,7 +53,58 @@ public class Main {
         grafo.borrarArco(2, 3);
         System.out.println("¿Existe arco entre 2 y 3 después de borrar? " + grafo.existeArco(2, 3));
 
-        System.out.println( grafo.obtenerArco(3,4));
+
+        //Metodos del grafo no dirigido
+        System.out.println();
+        System.out.println("--------------------------------------GND-----------------------------------");
+        System.out.println();
+
+        GrafoNoDirigido<String> gnd = new GrafoNoDirigido<>();
+
+        gnd.agregarVertice(1);
+        gnd.agregarVertice(2);
+        gnd.agregarVertice(3);
+        gnd.agregarVertice(4);
+        gnd.agregarArco(1, 2, null);
+        gnd.agregarArco(2, 3, null);
+        gnd.agregarArco(3, 1, null);
+        gnd.agregarArco(3, 4, null);
+
+
+        System.out.println("Cantidad de vértices: " + gnd.cantidadVertices());
+        System.out.println("Cantidad de arcos: " + gnd.cantidadArcos());
+
+        System.out.println("¿Existe arco entre 1 y 2? " + gnd.existeArco(1, 2));
+        System.out.println("¿Existe arco entre 2 y 1? " + gnd.existeArco(2, 1));
+
+        System.out.println("Arcos del grafo no dirigido:");
+        Iterator<Arco<String>> iter = gnd.obtenerArcos();
+        while (iter.hasNext()) {
+            Arco<String> arco = iter.next();
+            System.out.println(arco);
+        }
+
+        System.out.println("Arcos del grafo no dirigido VERTICE 3:");
+        Iterator<Arco<String>> ite = gnd.obtenerArcos(3);
+        while (ite.hasNext()) {
+            Arco<String> arco = ite.next();
+            System.out.println(arco);
+        }
+
+        System.out.println("Vértices adyacentes a 2:");
+        Iterator<Integer> adyacentesGND = gnd.obtenerAdyacentes(2);
+        while (adyacentesGND.hasNext()) {
+            System.out.println(adyacentesGND.next());
+        }
+
+
+
+
+
+
+        gnd.borrarVertice(1);
+        System.out.println("Cantidad de vértices después de borrar uno: " + gnd.cantidadVertices());
+        System.out.println("Cantidad de arcos después de borrar un vértice: " + gnd.cantidadArcos());
 
 
     }
