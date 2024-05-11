@@ -2,7 +2,7 @@ import java.util.*;
 
 public class GrafoDirigido<T> implements Grafo<T> {
 	//             ValorVertice     Arcos
-	private HashMap<Integer, ArrayList<Arco<T>>> vertices;
+	private HashMap<Integer, LinkedList<Arco<T>>> vertices;
 
 	public GrafoDirigido() {
 		vertices = new HashMap<>();
@@ -11,7 +11,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public void agregarVertice(int verticeId) {
 		if(!contieneVertice(verticeId)){
-			vertices.put(verticeId, new ArrayList<>());
+			vertices.put(verticeId, new LinkedList<>());
 		}
 	}
 
@@ -94,7 +94,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public int cantidadArcos() {
 		//Complejidad O(N)
 		int cantidad = 0;
-		for (ArrayList<Arco<T>> arcosDelVertice: this.vertices.values()) {
+		for (LinkedList<Arco<T>> arcosDelVertice: this.vertices.values()) {
 			cantidad += arcosDelVertice.size();
 		}
 		return cantidad;
@@ -107,30 +107,16 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
-		//Complejidad O(N)
-
-		ArrayList<Arco<T>> verticeConArcos = vertices.get(verticeId);
-		//verificacion
-		if (verticeConArcos == null) {
-			return null;
-		}
-
-		ArrayList<Integer> adyacentes = new ArrayList<>();
-		if(!verticeConArcos.isEmpty()) {
-			for (Arco<T> arco : verticeConArcos) {
-				adyacentes.add(arco.getVerticeDestino());
-			}
-			return adyacentes.iterator();
-		}
-		return null;
+		return new IteradorArco<T>(vertices.get(verticeId).iterator());
 	}
 
 
 	@Override
 	public Iterator<Arco<T>> obtenerArcos() {
+
 		//Complejidad O(N)
 		ArrayList<Arco<T>> arcosObtenidos = new ArrayList<>();
-		for (ArrayList<Arco<T>> arcosDelVertice : this.vertices.values()) {
+		for (LinkedList<Arco<T>> arcosDelVertice : this.vertices.values()) {
 			arcosObtenidos.addAll(arcosDelVertice);
 		}
 		return arcosObtenidos.iterator();
@@ -140,7 +126,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
 		//Complejidad O(N)
 		if (contieneVertice(verticeId)) {
-			ArrayList<Arco<T>> arcos = vertices.get(verticeId);
+			LinkedList<Arco<T>> arcos = vertices.get(verticeId);
 			return arcos.iterator();
 		}
 		return null;
