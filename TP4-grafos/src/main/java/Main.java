@@ -9,12 +9,18 @@ public class Main {
         grafo.agregarVertice(2);
         grafo.agregarVertice(3);
         grafo.agregarVertice(4);
+        grafo.agregarVertice(10);
+        grafo.agregarVertice(11);
+        grafo.agregarVertice(18);
+
 
         // Agregar arcos
         grafo.agregarArco(1, 2, null);
         grafo.agregarArco(1, 3, null);
         grafo.agregarArco(2, 3, null);
         grafo.agregarArco(3, 4, null);
+        grafo.agregarArco(10,11,null);
+
 
         System.out.println();
         System.out.println("--------------------------------------GD-----------------------------------");
@@ -25,6 +31,8 @@ public class Main {
             Arco<String> arco = it.next();
             System.out.println(arco);
         }
+        grafo.dfs();
+
 
         // Probar métodos
         System.out.println("Cantidad de vértices grafo dirigido: " + grafo.cantidadVertices());
@@ -100,12 +108,9 @@ public class Main {
 
 
 
-
-
         gnd.borrarVertice(1);
         System.out.println("Cantidad de vértices después de borrar uno: " + gnd.cantidadVertices());
         System.out.println("Cantidad de arcos después de borrar un vértice: " + gnd.cantidadArcos());
-
 
     }
 }

@@ -106,7 +106,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
 		//Complejidad O(1)
-		return new IteradorArco<T>(vertices.get(verticeId).iterator());
+		return new IteradorAdyacentes<T>(vertices.get(verticeId).iterator());
 	}
 
 
@@ -129,4 +129,29 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		}
 		return null;
 	}
+
+	public void dfs() {
+		Set<Integer> visitados = new HashSet<>();
+		//recorro todos los vertices
+		for (Integer vertice : this.vertices.keySet()) {
+				dfsRecursivo(vertice , visitados);
+		}
+	}
+
+	private void dfsRecursivo(Integer verticeId, Set<Integer> visitados) {
+		//caso base
+		if (visitados.contains(verticeId)) {
+			return;
+		}
+
+		visitados.add(verticeId); //lista de vertices visitados
+
+		System.out.println("Visitando vértice: " + verticeId);
+
+		//recorro cada arco del vertice y llamo recursivamente al metodo dfs con su vertice destino
+		for (Arco<T> arco : vertices.get(verticeId)) {
+			dfsRecursivo(arco.getVerticeDestino(), visitados);
+		}
+	}
+
 }
