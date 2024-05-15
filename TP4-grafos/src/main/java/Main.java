@@ -9,17 +9,24 @@ public class Main {
         grafo.agregarVertice(2);
         grafo.agregarVertice(3);
         grafo.agregarVertice(4);
-        grafo.agregarVertice(10);
-        grafo.agregarVertice(11);
-        grafo.agregarVertice(18);
+        grafo.agregarVertice(5);
+        grafo.agregarVertice(6);
+        grafo.agregarVertice(7);
+        grafo.agregarVertice(8);
 
 
         // Agregar arcos
-        grafo.agregarArco(1, 2, null);
+        grafo.agregarArco(1,2,null);
         grafo.agregarArco(1, 3, null);
+        grafo.agregarArco(1, 4, null);
+        grafo.agregarArco(2, 4, null);
         grafo.agregarArco(2, 3, null);
-        grafo.agregarArco(3, 4, null);
-        grafo.agregarArco(10,11,null);
+        grafo.agregarArco(3, 1, null);
+        grafo.agregarArco(5,4,null);
+        grafo.agregarArco(7,8,null);
+        grafo.agregarArco(7,6,null);
+        grafo.agregarArco(7,5,null);
+        grafo.agregarArco(8,4,null);
 
 
         System.out.println();
@@ -31,7 +38,11 @@ public class Main {
             Arco<String> arco = it.next();
             System.out.println(arco);
         }
-        grafo.dfs();
+
+        Servicio<String> servicio = new Servicio<>(grafo);
+
+        // Realizar búsqueda en profundidad (DFS)
+        servicio.dfs();
 
 
         // Probar métodos
@@ -104,9 +115,6 @@ public class Main {
         while (adyacentesGND.hasNext()) {
             System.out.println(adyacentesGND.next());
         }
-
-
-
 
         gnd.borrarVertice(1);
         System.out.println("Cantidad de vértices después de borrar uno: " + gnd.cantidadVertices());
