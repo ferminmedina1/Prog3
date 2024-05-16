@@ -94,11 +94,11 @@ public class Servicio<T> {
         startService();
         LinkedList<Integer> solution = new LinkedList<>();
         LinkedList<Integer> auxList = new LinkedList<>();
-        findgetLongestPath(verticeId1, verticeId2, auxList, solution);
+        findLongestPath(verticeId1, verticeId2, auxList, solution);
         return solution;
     }
 
-    private void findgetLongestPath(int verticeActual, int verticeAEncontrar,
+    private void findLongestPath(int verticeActual, int verticeAEncontrar,
                                 LinkedList<Integer> currentPath, LinkedList<Integer> longestPath) {
         currentPath.add(verticeActual);
         visitados.put(verticeActual, true);
@@ -108,16 +108,18 @@ public class Servicio<T> {
                 longestPath.clear();
                 longestPath.addAll(currentPath);
             }
-        } else {
+        }
+        else {
             Iterator<Integer> iteArcosVertice = grafo.obtenerAdyacentes(verticeActual);
             while (iteArcosVertice.hasNext()) {
                 Integer adyacente = iteArcosVertice.next();
                 if (!visitados.get(adyacente)) {
-                    findgetLongestPath(adyacente, verticeAEncontrar, currentPath, longestPath);
+                    findLongestPath(adyacente, verticeAEncontrar, currentPath, longestPath);
                 }
             }
         }
 
+        //backtracking
         currentPath.removeLast();
         visitados.put(verticeActual, false);
     }
@@ -156,7 +158,43 @@ public class Servicio<T> {
             }
         }
 
+        //backtracking
         currentPath.removeLast();
-        visitados.put(verticeActual, false);  // Permitir reuso de vértices en diferentes caminos
+        visitados.put(verticeActual, false);
+    }
+
+
+    public LinkedList<Integer> getSmallestPath(int verticeId1, int verticeId2) {
+        startService();
+        LinkedList<Integer> solution = new LinkedList<>();
+        LinkedList<Integer> auxList = new LinkedList<>();
+        findSmallestPath(verticeId1, verticeId2, auxList, solution);
+        return solution;
+    }
+
+    private void findSmallestPath(int verticeActual, int verticeAEncontrar,
+                                 LinkedList<Integer> currentPath, LinkedList<Integer> smallestPath) {
+        currentPath.add(verticeActual);
+        visitados.put(verticeActual, true);
+
+        if (verticeActual == verticeAEncontrar) {
+            System.out.println("hola");
+            if (currentPath.size() < smallestPath.size() || smallestPath.isEmpty()) {
+                smallestPath.clear();
+                smallestPath.addAll(currentPath);
+            }
+        }
+        else {
+            Iterator<Integer> iteArcosVertice = grafo.obtenerAdyacentes(verticeActual);
+            while (iteArcosVertice.hasNext()) {
+                Integer adyacente = iteArcosVertice.next();
+                if (!visitados.get(adyacente)) {
+                    findSmallestPath(adyacente, verticeAEncontrar, currentPath, smallestPath);
+                }
+            }
+        }
+        //backtracking
+        currentPath.removeLast();
+        visitados.put(verticeActual, false);
     }
 }

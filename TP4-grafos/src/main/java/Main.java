@@ -13,9 +13,6 @@ public class Main {
         grafo.agregarVertice(2);
         grafo.agregarVertice(3);
         grafo.agregarVertice(4);
-        grafo.agregarVertice(5);
-        grafo.agregarVertice(6);
-        grafo.agregarVertice(7);
 
         grafo2.agregarVertice(1);
         grafo2.agregarVertice(2);
@@ -29,13 +26,10 @@ public class Main {
 
 
         // Agregar arcos
-        grafo.agregarArco(1,2,null);
         grafo.agregarArco(1,3,null);
         grafo.agregarArco(3,4,null);
-        grafo.agregarArco(4,5,null);
-        grafo.agregarArco(2,5,null);
-        grafo.agregarArco(5,6,null);
-        grafo.agregarArco(5,7,null);
+        grafo.agregarArco(1,2,null);
+        grafo.agregarArco(2,3,null);
 
         grafo2.agregarArco(1,3,null);
         grafo2.agregarArco(1,4,null);
@@ -60,18 +54,22 @@ public class Main {
             System.out.println(arco);
         }
 
+        Servicio<String> servicio2 = new Servicio<>(grafo);
         Servicio<String> servicio = new Servicio<>(grafo2);
 
-        // Realizar búsqueda en profundidad (DFS)
-        //servicio.dfs();
+        //Realizar búsqueda en profundidad (DFS)
+        servicio2.dfs();
         // Realizar búsqueda en profundidad (BFS)
-        //servicio.bfs();
+        servicio.bfs();
 
         LinkedList<Integer> solutionEj4 = servicio.getLongestPath(4,6);
         LinkedList<Integer> solutionEj5 = servicio.getAllPaths(6);
+        LinkedList<Integer> solutionEj6 = servicio.getSmallestPath(1,6);
 
         System.out.println(solutionEj4);
         System.out.println(solutionEj5);
+        System.out.println(solutionEj6 + "ejercicio 6");
+
 
 
 
