@@ -3,6 +3,8 @@ public class Main {
     public static void main(String[] args) {
 
         GrafoDirigido<String> grafo = new GrafoDirigido<>();
+        GrafoDirigido<String> grafo2 = new GrafoDirigido<>();
+
 
         // Agregar vértices
         grafo.agregarVertice(1);
@@ -12,21 +14,26 @@ public class Main {
         grafo.agregarVertice(5);
         grafo.agregarVertice(6);
         grafo.agregarVertice(7);
-        grafo.agregarVertice(8);
+
+        grafo2.agregarVertice(1);
+        grafo2.agregarVertice(2);
+        grafo2.agregarVertice(3);
+        grafo2.agregarVertice(48);
 
 
         // Agregar arcos
         grafo.agregarArco(1,2,null);
-        grafo.agregarArco(1, 3, null);
-        grafo.agregarArco(1, 4, null);
-        grafo.agregarArco(2, 4, null);
-        grafo.agregarArco(2, 3, null);
-        grafo.agregarArco(3, 1, null);
-        grafo.agregarArco(5,4,null);
-        grafo.agregarArco(7,8,null);
-        grafo.agregarArco(7,6,null);
-        grafo.agregarArco(7,5,null);
-        grafo.agregarArco(8,4,null);
+        grafo.agregarArco(1,3,null);
+        grafo.agregarArco(3,4,null);
+        grafo.agregarArco(4,5,null);
+        grafo.agregarArco(2,5,null);
+        grafo.agregarArco(5,6,null);
+        grafo.agregarArco(5,7,null);
+
+        grafo2.agregarArco(1,2,null);
+        grafo2.agregarArco(1,3,null);
+        grafo2.agregarArco(2,3,null);
+
 
 
         System.out.println();
@@ -43,7 +50,13 @@ public class Main {
 
         // Realizar búsqueda en profundidad (DFS)
         servicio.dfs();
+        servicio.bfs();
 
+
+
+
+
+        /*
 
         // Probar métodos
         System.out.println("Cantidad de vértices grafo dirigido: " + grafo.cantidadVertices());
@@ -53,7 +66,7 @@ public class Main {
         System.out.println("¿Contiene arco entre 1 y 2? " + grafo.existeArco(1, 2)); //true
         System.out.println("¿Contiene arco entre 2 y 1? " + grafo.existeArco(2, 1)); //false
 
-        System.out.println("Arco entre 1 y 2: " + grafo.obtenerArco(1, 2).toString());
+        System.out.println("Arco entre 1 y 2: " + grafo.obtenerArco(1, 2));
 
         System.out.println("Vértices adyacentes a 1:");
         Iterator<Integer> adyacentes = grafo.obtenerAdyacentes(1);
@@ -119,6 +132,7 @@ public class Main {
         gnd.borrarVertice(1);
         System.out.println("Cantidad de vértices después de borrar uno: " + gnd.cantidadVertices());
         System.out.println("Cantidad de arcos después de borrar un vértice: " + gnd.cantidadArcos());
+    */
 
     }
 }
