@@ -38,27 +38,22 @@ public class Servicio<T> {
     }
 
     private void dfs(Integer vertice, HashMap<Integer, Boolean> visitados) {
-        //si el vertice no esta visitado -> lo visitó
-        if (!visitados.get(vertice)) {
-            // Marcamos el vértice actual como visitado
-            visitados.put(vertice, true);
-            System.out.println(visitados);
+        // Marcamos el vértice actual como visitado
+        visitados.put(vertice, true);
+        System.out.println(visitados);
 
-            // Recorremos los arcos adyacentes del vértice actual
-            Iterator<Integer> iteratorAdyacente = grafo.obtenerAdyacentes(vertice);
-            while(iteratorAdyacente.hasNext()) {
-                Integer arcoAdyacente = iteratorAdyacente.next();
-
-                //verifico si tiene ciclos (EJERCICIO 3)
-                if (visitados.get(arcoAdyacente)) {
-                    System.out.println("tiene ciclo!!");
-                }
-
+        // Recorremos los arcos adyacentes del vértice actual
+        Iterator<Integer> iteratorAdyacente = grafo.obtenerAdyacentes(vertice);
+        while(iteratorAdyacente.hasNext()) {
+            Integer arcoAdyacente = iteratorAdyacente.next();
+            //verifico si tiene ciclos (EJERCICIO 3)
+            if (visitados.get(arcoAdyacente)) {
+                System.out.println("tiene ciclo!!");
+            }else {
                 //llamada recursiva con el arcoAdyacente
                 dfs(arcoAdyacente, visitados);
             }
         }
-
         System.out.println("el vertice " + vertice + " esta visitado");
     }
 
@@ -95,7 +90,73 @@ public class Servicio<T> {
         }
     }
 
+    public LinkedList<Integer> getLongestPath(int verticeId1, int verticeId2) {
+        startService();
+        LinkedList<Integer> solution = new LinkedList<>();
+        LinkedList<Integer> auxList = new LinkedList<>();
+        findgetLongestPath(verticeId1, verticeId2, auxList, solution);
+        return solution;
+    }
 
+    private void findgetLongestPath(int verticeActual, int verticeAEncontrar,
+                                LinkedList<Integer> currentPath, LinkedList<Integer> longestPath) {
+        currentPath.add(verticeActual);
+        visitados.put(verticeActual, true);
 
+        if (verticeActual == verticeAEncontrar) {
+            if (currentPath.size() > longestPath.size()) {
+                longestPath.clear();
+                longestPath.addAll(currentPath);
+            }
+        } else {
+            Iterator<Integer> iteArcosVertice = grafo.obtenerAdyacentes(verticeActual);
+            while (iteArcosVertice.hasNext()) {
+                Integer adyacente = iteArcosVertice.next();
+                if (!visitados.get(adyacente)) {
+                    findgetLongestPath(adyacente, verticeAEncontrar, currentPath, longestPath);
+                }
+            }
+        }
 
+        currentPath.removeLast();
+        visitados.put(verticeActual, false);
+    }
+
+    public LinkedList<Integer> getAllPaths(int verticeDestino) {
+        startService();
+        LinkedList<Integer> allPaths = new LinkedList<>();
+        Iterator<Integer> iteVertices = grafo.obtenerVertices();
+        while (iteVertices.hasNext()) {
+            Integer vertice = iteVertices.next();
+            LinkedList<Integer> currentPath = new LinkedList<>();
+            findAllPaths(verticeDestino, vertice, currentPath, allPaths);
+        }
+        return allPaths;
+    }
+
+    private void findAllPaths(int verticeDestino, int verticeActual, LinkedList<Integer> currentPath,
+                              LinkedList<Integer> allPaths) {
+        currentPath.add(verticeActual);
+        visitados.put(verticeActual, true);
+
+        if (verticeActual == verticeDestino) {
+            allPaths.addAll(currentPath);
+            //remuevo el verticeDestino de los caminos ya que es una irrelevancia
+            if (allPaths.contains(verticeDestino)) {
+                allPaths.removeLast();
+            }
+        }
+        else {
+            Iterator<Integer> iteAdyacentes = grafo.obtenerAdyacentes(verticeActual);
+            while (iteAdyacentes.hasNext()) {
+                Integer adyacente = iteAdyacentes.next();
+                if (!visitados.get(adyacente) ) {
+                    findAllPaths(verticeDestino, adyacente, currentPath, allPaths);
+                }
+            }
+        }
+
+        currentPath.removeLast();
+        visitados.put(verticeActual, false);  // Permitir reuso de vértices en diferentes caminos
+    }
 }

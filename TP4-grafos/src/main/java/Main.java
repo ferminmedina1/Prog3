@@ -1,4 +1,6 @@
 import java.util.Iterator;
+import java.util.LinkedList;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -18,7 +20,12 @@ public class Main {
         grafo2.agregarVertice(1);
         grafo2.agregarVertice(2);
         grafo2.agregarVertice(3);
-        grafo2.agregarVertice(48);
+        grafo2.agregarVertice(4);
+        grafo2.agregarVertice(5);
+        grafo2.agregarVertice(6);
+        grafo2.agregarVertice(7);
+        grafo2.agregarVertice(8);
+        grafo2.agregarVertice(9);
 
 
         // Agregar arcos
@@ -30,9 +37,16 @@ public class Main {
         grafo.agregarArco(5,6,null);
         grafo.agregarArco(5,7,null);
 
-        grafo2.agregarArco(1,2,null);
         grafo2.agregarArco(1,3,null);
-        grafo2.agregarArco(2,3,null);
+        grafo2.agregarArco(1,4,null);
+        grafo2.agregarArco(3,2,null);
+        grafo2.agregarArco(3,5,null);
+        grafo2.agregarArco(5,6,null);
+        grafo2.agregarArco(4,6,null);
+        grafo2.agregarArco(4,7,null);
+        grafo2.agregarArco(7,8,null);
+        grafo2.agregarArco(8,9,null);
+        grafo2.agregarArco(9,6,null);
 
 
 
@@ -46,11 +60,18 @@ public class Main {
             System.out.println(arco);
         }
 
-        Servicio<String> servicio = new Servicio<>(grafo);
+        Servicio<String> servicio = new Servicio<>(grafo2);
 
         // Realizar búsqueda en profundidad (DFS)
-        servicio.dfs();
-        servicio.bfs();
+        //servicio.dfs();
+        // Realizar búsqueda en profundidad (BFS)
+        //servicio.bfs();
+
+        LinkedList<Integer> solutionEj4 = servicio.getLongestPath(4,6);
+        LinkedList<Integer> solutionEj5 = servicio.getAllPaths(6);
+
+        System.out.println(solutionEj4);
+        System.out.println(solutionEj5);
 
 
 
