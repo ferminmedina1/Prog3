@@ -7,10 +7,6 @@ public class Servicio<T> {
     public Servicio(Grafo<T> grafo) {
         this.grafo = grafo;
         this.visitados = new HashMap<>();
-        Iterator<Integer> verticesIterator = grafo.obtenerVertices();
-        while (verticesIterator.hasNext()) {
-            visitados.put(verticesIterator.next(), false);
-        }
     }
 
 
@@ -142,17 +138,13 @@ public class Servicio<T> {
 
     private void findAllPaths(int verticeDestino, int verticeActual, LinkedList<Integer> currentPath,
                               LinkedList<Integer> allPaths) {
-        currentPath.add(verticeActual);
-        visitados.put(verticeActual, true);
 
         if (verticeActual == verticeDestino) {
             allPaths.addAll(currentPath);
-            //remuevo el verticeDestino de los caminos ya que es una irrelevancia
-            if (allPaths.contains(verticeDestino)) {
-                allPaths.removeLast();
-            }
         }
         else {
+            currentPath.add(verticeActual);
+            visitados.put(verticeActual, true);
             Iterator<Integer> iteAdyacentes = grafo.obtenerAdyacentes(verticeActual);
             while (iteAdyacentes.hasNext()) {
                 Integer adyacente = iteAdyacentes.next();
@@ -160,11 +152,10 @@ public class Servicio<T> {
                     findAllPaths(verticeDestino, adyacente, currentPath, allPaths);
                 }
             }
+            //backtracking
+            currentPath.removeLast();
+            visitados.put(verticeActual, false);
         }
-
-        //backtracking
-        currentPath.removeLast();
-        visitados.put(verticeActual, false);
     }
 
 
@@ -191,7 +182,8 @@ public class Servicio<T> {
             Iterator<Integer> iteArcosVertice = grafo.obtenerAdyacentes(verticeActual);
             while (iteArcosVertice.hasNext()) {
                 Integer adyacente = iteArcosVertice.next();
-                if (!visitados.get(adyacente) && currentPath.size() < smallestPath.size()) { //poda
+                //                                   PODA!!!
+                if (!visitados.get(adyacente) || currentPath.size() < smallestPath.size()) {
                     findSmallestPath(adyacente, verticeAEncontrar, currentPath, smallestPath);
                 }
             }

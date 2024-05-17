@@ -106,7 +106,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
 		//Complejidad O(1)
-		return new IteradorAdyacentes<T>(vertices.get(verticeId).iterator());
+		return new IteradorAdyacente<T>(vertices.get(verticeId).iterator());
 	}
 
 
