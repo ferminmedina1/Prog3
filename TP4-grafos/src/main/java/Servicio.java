@@ -7,6 +7,10 @@ public class Servicio<T> {
     public Servicio(Grafo<T> grafo) {
         this.grafo = grafo;
         this.visitados = new HashMap<>();
+        Iterator<Integer> verticesIterator = grafo.obtenerVertices();
+        while (verticesIterator.hasNext()) {
+            visitados.put(verticesIterator.next(), false);
+        }
     }
 
 
@@ -178,7 +182,6 @@ public class Servicio<T> {
         visitados.put(verticeActual, true);
 
         if (verticeActual == verticeAEncontrar) {
-            System.out.println("hola");
             if (currentPath.size() < smallestPath.size() || smallestPath.isEmpty()) {
                 smallestPath.clear();
                 smallestPath.addAll(currentPath);
@@ -188,7 +191,7 @@ public class Servicio<T> {
             Iterator<Integer> iteArcosVertice = grafo.obtenerAdyacentes(verticeActual);
             while (iteArcosVertice.hasNext()) {
                 Integer adyacente = iteArcosVertice.next();
-                if (!visitados.get(adyacente)) {
+                if (!visitados.get(adyacente) && currentPath.size() < smallestPath.size()) { //poda
                     findSmallestPath(adyacente, verticeAEncontrar, currentPath, smallestPath);
                 }
             }
