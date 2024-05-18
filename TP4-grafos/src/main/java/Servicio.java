@@ -100,8 +100,6 @@ public class Servicio<T> {
 
     private void findLongestPath(int verticeActual, int verticeAEncontrar,
                                 LinkedList<Integer> currentPath, LinkedList<Integer> longestPath) {
-        currentPath.add(verticeActual);
-        visitados.put(verticeActual, true);
 
         if (verticeActual == verticeAEncontrar) {
             if (currentPath.size() > longestPath.size()) {
@@ -110,6 +108,8 @@ public class Servicio<T> {
             }
         }
         else {
+            currentPath.add(verticeActual);
+            visitados.put(verticeActual, true);
             Iterator<Integer> iteArcosVertice = grafo.obtenerAdyacentes(verticeActual);
             while (iteArcosVertice.hasNext()) {
                 Integer adyacente = iteArcosVertice.next();
@@ -117,11 +117,9 @@ public class Servicio<T> {
                     findLongestPath(adyacente, verticeAEncontrar, currentPath, longestPath);
                 }
             }
+            currentPath.removeLast();
+            visitados.put(verticeActual, false);
         }
-
-        //backtracking
-        currentPath.removeLast();
-        visitados.put(verticeActual, false);
     }
 
     public LinkedList<Integer> getAllPaths(int verticeDestino) {
@@ -152,7 +150,6 @@ public class Servicio<T> {
                     findAllPaths(verticeDestino, adyacente, currentPath, allPaths);
                 }
             }
-            //backtracking
             currentPath.removeLast();
             visitados.put(verticeActual, false);
         }
@@ -169,8 +166,6 @@ public class Servicio<T> {
 
     private void findSmallestPath(int verticeActual, int verticeAEncontrar,
                                  LinkedList<Integer> currentPath, LinkedList<Integer> smallestPath) {
-        currentPath.add(verticeActual);
-        visitados.put(verticeActual, true);
 
         if (verticeActual == verticeAEncontrar) {
             if (currentPath.size() < smallestPath.size() || smallestPath.isEmpty()) {
@@ -179,6 +174,8 @@ public class Servicio<T> {
             }
         }
         else {
+            currentPath.add(verticeActual);
+            visitados.put(verticeActual, true);
             Iterator<Integer> iteArcosVertice = grafo.obtenerAdyacentes(verticeActual);
             while (iteArcosVertice.hasNext()) {
                 Integer adyacente = iteArcosVertice.next();
@@ -187,9 +184,8 @@ public class Servicio<T> {
                     findSmallestPath(adyacente, verticeAEncontrar, currentPath, smallestPath);
                 }
             }
+            currentPath.removeLast();
+            visitados.put(verticeActual, false);
         }
-        //backtracking
-        currentPath.removeLast();
-        visitados.put(verticeActual, false);
     }
 }
