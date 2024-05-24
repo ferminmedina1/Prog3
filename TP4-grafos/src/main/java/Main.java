@@ -63,11 +63,11 @@ public class Main {
         servicio.bfs();
 
         LinkedList<Integer> solutionEj4 = servicio.getLongestPath(1,6);
-        LinkedList<Integer> solutionEj5 = servicio.getAllPaths(6);
+        LinkedList<Integer> solutionEj5 = servicio.getAllVerticesByDestino(6);
         LinkedList<Integer> solutionEj6 = servicio.getSmallestPath(1,6);
 
         System.out.println(solutionEj4 + " ejercicio 4 (camino mas largo entre dos vertices)");
-        System.out.println(solutionEj5 + " ejercicio 5 (todos los caminos que conduzen a un determinado vertice)");
+        System.out.println(solutionEj5 + " ejercicio 5 (todos los vertices que llegan a un determinado vertice)");
         System.out.println(solutionEj6 + " ejercicio 6 (camino mas corto entre dos vertices)");
 
 

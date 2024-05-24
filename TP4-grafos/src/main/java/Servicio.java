@@ -4,9 +4,12 @@ public class Servicio<T> {
     private Grafo<T> grafo;
     private HashMap<Integer, Boolean> visitados;
 
+    private HashMap<Integer, String> maracas;
+
     public Servicio(Grafo<T> grafo) {
         this.grafo = grafo;
         this.visitados = new HashMap<>();
+        this.maracas = new HashMap<>();
     }
 
 
@@ -20,6 +23,13 @@ public class Servicio<T> {
         Iterator<Integer> verticesIterator = grafo.obtenerVertices();
         while (verticesIterator.hasNext()) {
             visitados.put(verticesIterator.next(), false);
+        }
+    }
+
+    public void startService2() {
+        Iterator<Integer> verticesIterador = grafo.obtenerVertices();
+        while (verticesIterador.hasNext()) {
+            maracas.put(verticesIterador.next(), "Blanco");
         }
     }
 
@@ -122,32 +132,37 @@ public class Servicio<T> {
         }
     }
 
-    public LinkedList<Integer> getAllPaths(int verticeDestino) {
+    public LinkedList<Integer> getAllVerticesByDestino(int verticeDestino) {
         startService();
-        LinkedList<Integer> allPaths = new LinkedList<>();
+        LinkedList<Integer> allVertices = new LinkedList<>();
         Iterator<Integer> iteVertices = grafo.obtenerVertices();
+        int countMethod = 0;
         while (iteVertices.hasNext()) {
             Integer vertice = iteVertices.next();
             LinkedList<Integer> currentPath = new LinkedList<>();
-            findAllPaths(verticeDestino, vertice, currentPath, allPaths);
+            findAllVerticesByDestino(verticeDestino, vertice, vertice, currentPath, allVertices);
         }
-        return allPaths;
+        return allVertices;
     }
 
-    private void findAllPaths(int verticeDestino, int verticeActual, LinkedList<Integer> currentPath,
-                              LinkedList<Integer> allPaths) {
+    private void findAllVerticesByDestino(int verticeDestino, int verticeActual, int verticeOrigen, LinkedList<Integer> currentPath,
+                                          LinkedList<Integer> allVertices) {
 
         if (verticeActual == verticeDestino) {
-            allPaths.addAll(currentPath);
+            allVertices.add(verticeOrigen);
         }
         else {
+            System.out.println(verticeOrigen);
+            if (allVertices.contains(verticeOrigen)) {
+                return;
+            }
             currentPath.add(verticeActual);
             visitados.put(verticeActual, true);
             Iterator<Integer> iteAdyacentes = grafo.obtenerAdyacentes(verticeActual);
             while (iteAdyacentes.hasNext()) {
                 Integer adyacente = iteAdyacentes.next();
-                if (!visitados.get(adyacente) ) {
-                    findAllPaths(verticeDestino, adyacente, currentPath, allPaths);
+                if (!visitados.get(adyacente)) {
+                    findAllVerticesByDestino(verticeDestino, adyacente, verticeOrigen, currentPath, allVertices);
                 }
             }
             currentPath.removeLast();
