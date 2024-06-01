@@ -1,12 +1,11 @@
+package ejercicio3y4;
 import java.util.LinkedList;
-import java.util.Iterator;
-
-public class SumaSubconjuntos {
+public class Conjunto {
 
     private LinkedList<Integer> n;
 
 
-    public SumaSubconjuntos() {
+    public Conjunto() {
         this.n = new LinkedList<>();
     }
 
@@ -29,8 +28,9 @@ public class SumaSubconjuntos {
         if (sum(current) == m) {
             resultado.addAll(current);
         }
-        //                PODA
+        //                PODA!!
         else if (sum(current) < m && index < n.size()) {
+
 
             current.add(n.get(index));
             sumSubconjuntos(m, n, resultado, current, index + 1);

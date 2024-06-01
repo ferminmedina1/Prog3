@@ -1,4 +1,5 @@
-import java.util.HashMap;
+package ejercicio2;
+
 import java.util.LinkedList;
 
 public class Laberinto {

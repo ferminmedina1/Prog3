@@ -1,5 +1,4 @@
-import java.util.Objects;
-
+package ejercicio2;
 public class Casilla {
     private int valor_natural;
     private boolean norte;

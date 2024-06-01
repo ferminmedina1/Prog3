@@ -1,3 +1,4 @@
+package ejercicio1;
 
 import java.util.HashMap;
 import java.util.Iterator;
